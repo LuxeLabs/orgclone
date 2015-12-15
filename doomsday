@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Add Organizations here
+ORGANIZATIONS=(
+   "TreyVee"
+   "laborchart"
+   "XLabKC"
+   "Crew-League"
+   "Sunlighten"
+)
+USER="x4nt"
+FLAG=false
+
+# You can either update the repos or re-download them.
+if [ $# -gt 0 ] && [ "$1" = "-u" ] ; then
+   echo "--Update Mode--"
+   FLAG=true
+fi
+
+cd ~/projects
+
+run ()
+{
+   if [ -d "$USER" ]; then
+      echo "Directory, $USER, exists."
+      if [ $FLAG = true ] ; then
+         cd $USER
+         echo "Updating all git repos..."
+         find . -mindepth 2 -maxdepth 2 -type d -print -exec git -C {} pull \;
+         echo "Running npm install..."
+         find . -mindepth 2 -maxdepth 2 -type d -exec sh -c '(cd {} && npm install)' ';'
+      else
+         rm -rf $USER && mkdir $_ && cd $_
+         pull_repos
+      fi
+   else
+      echo "Directory, $USER, does not exist."
+      mkdir $USER && cd $_
+      pull_repos
+   fi
+}
+
+# Pull all repos in each organization.
+pull_repos ()
+{
+   for org in "${ORGANIZATIONS[@]}"; do
+      mkdir $org && cd $_
+      curl -u $USER -s https://api.github.com/orgs/$org/repos?per_page=100 | ruby -rubygems -e 'require "json"; JSON.load(STDIN.read).each { |repo| %x[git clone #{repo["ssh_url"]}]}'
+   done
+}
+
+run
