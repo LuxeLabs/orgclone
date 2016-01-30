@@ -2,13 +2,11 @@
 
 # Add Organizations here
 ORGANIZATIONS=(
-   "TreyVee"
-   "laborchart"
-   "XLabKC"
-   "Crew-League"
-   "Sunlighten"
+   "<org1>"
+   "<org2>"
+   "<org3>"
 )
-USER="x4nt"
+USER="<username>"
 FLAG=false
 
 # You can either update the repos or re-download them.
