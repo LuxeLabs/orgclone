@@ -2,11 +2,7 @@
 
 # Add Organizations here
 ORGANIZATIONS=(
-   "TreyVee"
-   "laborchart"
-   "XLabKC"
-   "Crew-League"
-   "Sunlighten"
+   "LuxeLabs"
 )
 USER="x4nt"
 FLAG=false
